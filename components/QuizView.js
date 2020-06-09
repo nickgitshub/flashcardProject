@@ -13,6 +13,7 @@ class QuizView extends Component {
 		questionDisplay: "", 
 		currentCount: 0,
 		currentType: "Question",
+		displayType: "Show Answer",
 		currentTitle: "Title",
 		deckLength: this.props.navigation.state.params.deckItem.questions.length,
 		deckItem: this.props.navigation.state.params.deckItem,
@@ -27,11 +28,13 @@ class QuizView extends Component {
 		if(this.state.currentType === "Question"){
 			this.setState({
 				currentType: "Answer",
+				displayType: "Show Question",
 				currentTitle: this.state.answerDisplay,
 			})
 		} else if(this.state.currentType === "Answer"){
 			this.setState({
 				currentType: "Question",
+				displayType: "Show Answer",
 				currentTitle: this.state.questionDisplay,
 			})
 		}
@@ -117,7 +120,7 @@ class QuizView extends Component {
 					<Text style={styles.item}>{this.state.currentTitle}</Text>
 					<Button
 						style={styles.item}
-						title={this.state.currentType}
+						title={this.state.displayType}
 						onPress={()=> this.cardFlip()}
 					/> 
 					<Button

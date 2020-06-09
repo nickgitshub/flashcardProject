@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
-import { saveDeckTitle } from '../data.js'
+import { saveDeckTitle, getDeck, addCardToDeck } from '../data.js'
 
 
 class  NewDeck extends Component{
@@ -15,10 +15,19 @@ class  NewDeck extends Component{
 		})
 	}
 
+	modifyDeck = (deckKey, card) => {
+		addCardToDeck(deckKey, card)
+	}
+
 
 	handleSubmit = () => {
 		saveDeckTitle(this.state.deckTitle)
-		this.props.navigation.navigate('DeckList')
+		this.props.navigation.navigate('IndividualDeck',
+			{
+				deckKey: this.state.deckTitle, deckItem: getDeck(this.state.deckTitle), 
+				modifyDeck: this.modifyDeck,
+			}
+		)
 		this.setState({
 			deckTitle: ""
 		})

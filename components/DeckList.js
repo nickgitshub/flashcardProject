@@ -54,7 +54,7 @@ class DeckList extends Component{
 					>
 						<View style={styles.deckCard}>
 				 			<Text style={styles.title} >{this.state.deckObject[key].title}</Text>
-				 			<Text>{this.state.deckObject[key].questions.length} Cards</Text> 
+				 			<Text>{this.state.deckObject[key].questions.length} Card(s)</Text> 
 				 		</View>
 			 		</TouchableOpacity>
 				)}	

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { StyleSheet, Text, View, Button, Animated} from 'react-native';
 import { getDeck } from '../data.js'
 
@@ -6,7 +6,6 @@ import { getDeck } from '../data.js'
 class IndividualDeck extends Component{
 	
 	state = {
-		deckKey: "",
 		deckTitle: "",
 		deckLength: 0,
 		opacity: new Animated.Value(0)
@@ -16,9 +15,7 @@ class IndividualDeck extends Component{
 	componentDidMount() {
 		const { opacity } = this.state
 		Animated.timing(opacity, {toValue: 1, duration:1000}).start()
-		
 		this.setState({
-			deckKey: this.props.navigation.state.params.deckItem.title,
 			deckTitle: this.props.navigation.state.params.deckItem.title,
 			deckLength: this.props.navigation.state.params.deckItem.questions.length
 		})
@@ -43,17 +40,28 @@ class IndividualDeck extends Component{
 		        <Button
 					onPress={()=> this.props.navigation.navigate('NewQuestion', 
 						{
-							deckKey: this.state.deckKey, 
+							deckKey: this.state.deckTitle, 
 							modifyDeck: this.props.navigation.state.params.modifyDeck,
 							updateDeckLength: this.updateDeckLength
 						})
 					}
 					title="Add Card"
 		        /> 
-		        <Button
-					onPress={()=> this.props.navigation.navigate('QuizView', {deckItem: this.props.navigation.state.params.deckItem})}
-					title="Start Quiz"
-		        />
+		        {this.state.deckLength > 0
+		        ? 	<Button
+						onPress={()=> this.props.navigation.navigate('QuizView', {deckItem: this.props.navigation.state.params.deckItem})}
+						title="Start Quiz"
+		        	/>
+		        :
+		        	<Fragment>
+			        	<Button
+							disabled={true}
+							title="Start Quiz"
+			        	/>
+			        	<Text style={styles.warning}>Please add cards before starting quiz</Text>
+		        	</Fragment>
+		        }
+		       
 	  		</Animated.View>
 		)
 
@@ -69,6 +77,10 @@ const styles = StyleSheet.create({
 	},
 	deckItem: {
 		padding: 5
+	},
+	warning : {
+		color: '#DC143C',
+		fontSize: 15
 	}
 
 })
